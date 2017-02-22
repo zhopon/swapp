@@ -51,20 +51,38 @@ describe('cards', function () {
             });
         });
         describe('cards.unseen', function () {
+            it('has 4 cards in the collection', function () {
+                assert.equal(Cards.find().count(), 4);
+            });
             const collector = new PublicationCollector({ userId: userId1 });
             it('sends unseen cards', function (done) {
                 collector.collect('cards.unseen', (collections) => {
-                    chai.assert.equal(collections.Cards.length, 3);
+                    assert.equal(collections.Cards.length, 3);
                     done();
                 })
             });
             it('sends only other users cards', function (done) {
                 collector.collect('cards.unseen', (collections) => {
                     collections.Cards.map((card) => {
-                        chai.assert.notEqual(card.userId, userId1);
+                        assert.notEqual(card.userId, userId1);
                     });
                     done();
                 })
+            });
+        });
+        describe('cards.matches', function () {
+            before(function () {
+                const card1 = Cards.findOne({ userId: userId1});
+                const card2 = Cards.findOne({ userId: userId2});
+                card1.like({userId: userId2});
+                card2.like({userId: userId1});
+            });
+            it('sends matching cards', function (done) {
+                const collector = new PublicationCollector({ userId: userId1 });
+                collector.collect('cards.matches', (collections) => {
+                    assert.equal(collections.Cards.length, 1);
+                    done();
+                });
             });
         });
     });

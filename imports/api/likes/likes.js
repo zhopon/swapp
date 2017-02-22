@@ -1,3 +1,5 @@
+import { Mongo } from 'meteor/mongo';
+
 /**
  * The matches collection
  *
@@ -11,7 +13,11 @@ class LikesCollection extends Mongo.Collection {
         const otherUserIds = userLikes.map(function(like) {
             return like.target.userId;
         });
-        return super.find({userId: {$in: otherUserIds}, 'target.userId': userId});
+
+        return super.find({
+            userId: {$in: otherUserIds},
+            'target.userId': userId
+        });
     }
 
 }

@@ -27,6 +27,16 @@ class CardsCollection extends Mongo.Collection {
             userId: {$not: {$eq: userId}}
         });
     }
+
+    matches({userId}) {
+        const matchingCardIds = Likes
+            .findUserMatches(userId)
+            .map(function (match) {
+                return match.target._id;
+            });
+
+        return super.find({ _id: {$in: matchingCardIds}});
+    }
 }
 
 export const Cards = new CardsCollection('Cards');

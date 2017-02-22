@@ -1,7 +1,6 @@
 import { resetDatabase } from 'meteor/xolvio:cleaner';
 import { Random } from 'meteor/random';
 import { Likes } from '../likes.js';
-import { Cards } from '../../cards/cards.js';
 import { chai, assert } from 'meteor/practicalmeteor:chai';
 import { PublicationCollector } from 'meteor/johanbrook:publication-collector';
 import './publications.js';
@@ -33,38 +32,4 @@ describe('likes', function () {
             assert.equal(Likes.findUserMatches(userId3).count(), 0);
         });
     });
-    describe('publications', function () {
-        const userId1 = Random.id();
-        const userId2 = Random.id();
-        const createCards = (props = {}) => {
-            Cards.insert(props);
-        };
-        before(function () {
-            resetDatabase();
-            _.times(1, () => {
-                createCards({ userId: userId1 });
-            });
-            _.times(1, () => {
-                createCards({ userId: userId2});
-            });
-            _.times(2, () => {
-                createCards({ userId: Random.id() });
-            });
-        });
-        describe('cards.matches', function () {
-            before(function () {
-                const card1 = Cards.findOne({ userId: userId1});
-                const card2 = Cards.findOne({ userId: userId2});
-                card1.like({userId: userId2});
-                card2.like({userId: userId1});
-            });
-            // it('sends matching cards', function (done) {
-            //     const collector = new PublicationCollector({ userId: userId1 });
-            //     collector.collect('cards.matches', (collections) => {
-            //         // assert.equals(collections.Cards.length, 1);
-            //         done();
-            //     });
-            // });
-        });
-    })
 });
