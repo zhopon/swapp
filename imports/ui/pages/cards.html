@@ -1,14 +1,26 @@
 <template name="Cards_show_page">
 
-    <div>cards</div>
+  {{#with Template.subscriptionsReady}}
+    <div>cards {{count}}</div>
+  {{/with}}
 
     <div class="cards">
+
+        {{#with Template.subscriptionsReady}}
 
         {{#each card in cards}}
 
             <div>{{card._id}}</div>
 
+            <div>{{username card}}</div>
+
         {{/each}}
+
+        {{else}}
+
+            <div>Loading cards...</div>
+
+        {{/with}}
 
     </div>
 
@@ -16,7 +28,7 @@
 
         <button>Skip</button>
 
-        <button>Like!</button>
+        <button class="btn like">Like!</button>
 
     </div>
 

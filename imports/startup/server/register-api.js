@@ -1,1 +1,1 @@
-import '../../api/cards/server/publications.js';
+import '../../api/likes/server/publications.js';

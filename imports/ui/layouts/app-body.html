@@ -2,6 +2,11 @@
 
     <div>Hello!</div>
 
+    {{#if currentUser}}
     {{> Template.dynamic template=main}}
+    {{else}}
+        {{> atForm}}
+    {{/if}}
+
 
 </template>
