@@ -1,0 +1,28 @@
+<template name="Edit_card">
+  <form id="profile" method="post">
+
+      <div>
+        <div><label for="description">Description</label></div>
+        <div>
+          <textarea id="description"
+          placeholder="Please describe your place in a few words...">{{card.description}}</textarea>
+        </div>
+      </div>
+
+      <div>
+        <div><label for="upload">Add image</label></div>
+        <div><input id="upload" type="file" /></div>
+      </div>
+
+      <div>
+        {{#each image in card.images}}
+          <img src="{{image.src}}" width="200px" height="100px"/>
+        {{/each}}
+      </div>
+
+      <div>
+        <button type="submit">Save</button>
+      </div>
+
+  </form>
+</template>

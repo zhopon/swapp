@@ -1,5 +1,10 @@
 import { Cards } from '/imports/api/cards/cards.js';
 import { Accounts } from 'meteor/accounts-base';
+import fs from 'fs';
+
+
+const path = fs.realpathSync('../../../../../public/userdata/pictures');
+const paths = fs.readdirSync(path);
 
 Meteor.startup(() => {
     if (Cards.find().count() === 0) {
@@ -16,9 +21,13 @@ Meteor.startup(() => {
 
         // Create a card for each
         userIds.forEach(function(userId) {
+            const pid = paths[Math.floor(Math.random() * paths.length)];
             Cards.insert({
                 name: 'tra la la',
-                userId: userId
+                userId: userId,
+                images: fs.readdirSync(path + '/' + pid).map(function(file) {
+                  return { src: 'userdata/pictures/' + pid + '/' + file };
+                })
             });
         })
     }
